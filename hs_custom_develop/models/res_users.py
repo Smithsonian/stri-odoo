@@ -10,7 +10,7 @@ import logging
 _logger = logging.getLogger(__name__)
 
 
-class ResUsersInherit(models.Model):
+class ResUsers(models.Model):
 	_inherit = 'res.users'
 
 
