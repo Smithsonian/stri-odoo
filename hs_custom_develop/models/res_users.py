@@ -21,7 +21,8 @@ class ResUsers(models.Model):
 		# _logger.info("El valor de _auth_oauth_rpc es:")
 		# _logger.info("endpoint: {} - token: {}".format(str(endpoint), str(access_token)))
 		try:
-			super(ResUsers, self)._auth_oauth_rpc(endpoint, access_token)
+			resp = super(ResUsers, self)._auth_oauth_rpc(endpoint, access_token)
+			return resp.json()
 		except Exception as __ERROR:
 			# respuesta = requests.get(endpoint, params={'access_token': access_token})
 			# _logger.info("El valor de respuesta es {}".format(respuesta.text))
@@ -37,6 +38,7 @@ class ResUsers(models.Model):
 
 	@api.model
 	def _auth_oauth_validate(self, provider, access_token):
+		_logger.info("Entro en _auth_oauth_validate")
 		resp = super(ResUsers, self)._auth_oauth_validate(provider, access_token)
 		if resp.get('vso'):
 			email = resp.get('email')
