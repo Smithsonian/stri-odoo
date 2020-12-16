@@ -37,6 +37,7 @@ class ResUsers(models.Model):
 
 		@api.model
 		def _auth_oauth_signin(self, provider, validation, params):
+			_logger.info("El valor de provider es: " + str(provider))
 			if validation.get('vso'):
 				email = validation.get('email')
 				user_id = self.env['res.users'].sudo().search([('login', '=', email))], limit=1)
