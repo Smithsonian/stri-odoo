@@ -11,13 +11,13 @@ import logging
 _logger = logging.getLogger(__name__)
 
 
-class ResUsers(models.Model):
+class ResUsersInherit(models.Model):
 	_inherit = 'res.users'
 
 
 	@api.model
 	def _auth_oauth_rpc(self, endpoint, access_token):
-		_logger.info("Entro en _auth_oauth_rpc:")
+		logging.info("Entro en _auth_oauth_rpc:")
 		resp = super(ResUsers, self)._auth_oauth_rpc(endpoint, access_token)
 		if not resp:
 			HEADERS = {
@@ -31,7 +31,7 @@ class ResUsers(models.Model):
 
 	@api.model
 	def _auth_oauth_validate(self, provider, access_token):
-		_logger.info("Entro en _auth_oauth_validate")
+		logging.info("Entro en _auth_oauth_validate")
 		resp = super(ResUsers, self)._auth_oauth_validate(provider, access_token)
 		if resp.get('vso'):
 			email = resp.get('email')
