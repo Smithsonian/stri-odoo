@@ -138,7 +138,6 @@ class OAuthController(http.Controller):
 #             _logger.exception("OAuth2: %s" % str(e))
 #             print(e)
         try:
-            _logger.info("Obteniendo los credentials")
             credentials = pool['res.users'].sudo().microsoft_auth_oauth(
                 provider.id, {
                     'access_token': access_token,
@@ -147,8 +146,6 @@ class OAuthController(http.Controller):
                     'name': displayName,
                     'microsoft_refresh_token': refresh_token
                 })
-            _logger.info("credentials")
-            _logger.info(str(credentials))
             request.cr.commit()
             return login_and_redirect(*credentials, redirect_url=root_url + 'web?')
         except AttributeError:
