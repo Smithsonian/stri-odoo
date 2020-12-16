@@ -21,17 +21,16 @@ class ResUsers(models.Model):
 		# _logger.info("El valor de _auth_oauth_rpc es:")
 		# _logger.info("endpoint: {} - token: {}".format(str(endpoint), str(access_token)))
 		try:
-			return super(ResUsers, self)._auth_oauth_rpc(endpoint, access_token)
+			resp = super(ResUsers, self)._auth_oauth_rpc(endpoint, access_token)
+			return resp
 		except Exception as __ERROR:
-			# respuesta = requests.get(endpoint, params={'access_token': access_token})
-			# _logger.info("El valor de respuesta es {}".format(respuesta.text))
-			# return respuesta.json()
 			HEADERS = {
 				'Authorization': 'Bearer ' + access_token,
 				'Accept':  'application/json',
 			}
 			resp = requests.get(endpoint, headers=HEADERS).json()
 			resp['vso'] = True
+			_logger.info("El valor de resp: {}".format(str(resp)))
 			return resp
 
 
