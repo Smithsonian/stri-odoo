@@ -18,9 +18,10 @@ class ResUsers(models.Model):
 	def _auth_oauth_rpc(self, endpoint, access_token):
 		logging.info("Entro en _auth_oauth_rpc:")
 		try:
-			resp = super(ResUsers, self)._auth_oauth_rpc(endpoint, access_token)
-			return resp
+			return super(ResUsers, self)._auth_oauth_rpc(endpoint, access_token)
+			# return requests.get(endpoint, params={'access_token': access_token}).json()
 		except Exception as __ERROR:
+			logging.info("Entro en Exception logging")
 			HEADERS = {
 				'Authorization': 'Bearer ' + access_token,
 				'Accept':  'application/json',
