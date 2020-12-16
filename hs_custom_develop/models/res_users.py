@@ -14,7 +14,7 @@ class ResUsersInherit(models.Model):
 	_inherit = 'res.users'
 
 
-	# @api.model
+	@api.model
 	def _auth_oauth_rpc(self, endpoint, access_token):
 		logging.info("Entro en _auth_oauth_rpc:")
 		resp = super(ResUsers, self)._auth_oauth_rpc(endpoint, access_token)
@@ -28,13 +28,13 @@ class ResUsersInherit(models.Model):
 		return resp
 
 
-	# @api.model
+	@api.model
 	def _auth_oauth_validate(self, provider, access_token):
 		logging.info("Entro en _auth_oauth_validate")
 		resp = super(ResUsers, self)._auth_oauth_validate(provider, access_token)
 		if resp.get('vso'):
 			email = resp.get('email')
-			user_id = self.env['res.users'].sudo().search([('login', '=', email))], limit=1)
+			user_id = self.env['res.users'].sudo().search([('login', '=', email)], limit=1)
 			if user_id:
 				oauth_uid = str(resp.get('user_id'))
 				user_id.write({
