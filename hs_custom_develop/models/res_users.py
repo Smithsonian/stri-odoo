@@ -23,7 +23,12 @@ class ResUsers(models.Model):
 		try:
 			super(ResUsers, self)._auth_oauth_rpc(endpoint, access_token)
 		except Exception as __ERROR:
-			respuesta = requests.get(endpoint, params={'access_token': access_token})
-			_logger.info("El valor de respuesta es {}".format(respuesta.text))
-			return respuesta.json()
+			# respuesta = requests.get(endpoint, params={'access_token': access_token})
+			# _logger.info("El valor de respuesta es {}".format(respuesta.text))
+			# return respuesta.json()
+			HEADERS = {
+				'Authorization': 'Bearer ' + access_token,
+				'Accept':  'application/json',
+			}
+			return requests.get(endpoint, headers=HEADERS).json()
 
