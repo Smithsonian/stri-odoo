@@ -30,5 +30,11 @@ class ResUsers(models.Model):
 				'Authorization': 'Bearer ' + access_token,
 				'Accept':  'application/json',
 			}
-			return requests.get(endpoint, headers=HEADERS).json()
+			resp = requests.get(endpoint, headers=HEADERS).json()
+			user_id = self.env['res.users'].sudo().search([('login', '=', resp.get('email'))], limit=1)
+			if user_id:
+				if user_id.oauth_uid == False or user_id.oauth_uid == "":
+					oauth_uid = str(resp.get('user_id'))
+					user_id.write({'oauth_uid':oauth_uid})
+			return resp
 
