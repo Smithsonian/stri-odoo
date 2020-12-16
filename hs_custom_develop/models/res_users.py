@@ -2,7 +2,6 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
 import json
-
 import requests
 
 from odoo import api, fields, models
@@ -26,10 +25,8 @@ class ResUsers(models.Model):
 				'Accept':  'application/json',
 			}
 			resp = requests.get(endpoint, headers=HEADERS).json()
-			resp['vso'] = True
-			_logger.info("El valor de resp: {}".format(str(resp)))
+			resp['vso'] = 'True'
 		return resp
-			
 
 
 	@api.model
