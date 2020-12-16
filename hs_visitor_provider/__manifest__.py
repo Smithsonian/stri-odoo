@@ -14,6 +14,6 @@
 	'author': 'HS Consul S.A.',
 
 	'data': [
-		'data/visitor_auth.xml',
+		'data/auth_oauth_data.xml',
 	],
 }
