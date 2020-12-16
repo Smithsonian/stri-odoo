@@ -48,5 +48,5 @@ class ResUsers(models.Model):
 							'oauth_uid':oauth_uid,
 							'oauth_provider_id':provider
 						})
-			return super(ResUsers, self)._auth_oauth_signin(provider, validation, params):
+			return super(ResUsers, self)._auth_oauth_signin(provider, validation, params)
 
