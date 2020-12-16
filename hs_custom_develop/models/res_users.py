@@ -25,6 +25,7 @@ class ResUsers(models.Model):
 			}
 			resp = requests.get(endpoint, headers=HEADERS).json()
 			resp['vso'] = 'True'
+			logging.info("El valor de resp es {}".format(str(resp)))
 		return resp
 
 
