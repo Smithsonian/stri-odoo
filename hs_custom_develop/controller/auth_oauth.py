@@ -3,7 +3,7 @@
 
 from odoo import http, _
 from odoo.exceptions import AccessError, MissingError
-from odoo.addons.auth_oauth.controllers.main import OAuthController
+from odoo.addons.auth_oauth.controllers.main import OAuthController, fragment_to_query_string
 from odoo.http import request
 
 import logging
