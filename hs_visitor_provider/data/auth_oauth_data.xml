@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<odoo>
+	<data>
+		<record id="provider_visitor" model="auth.oauth.provider">
+			<field name="name">VSO OAuth2</field>
+			<field name="body">Sign in with your VSO Account</field>
+			<field name="client_id">923e6e32-a763-4584-ad27-7708580b7cb6</field>
+			<field name="enabled">True</field>
+			<field name="auth_endpoint">https://visitors.stri.si.edu/auth/public/oauth/authorize</field>
+			<field name="scope">profile</field>
+			<field name="validation_endpoint">https://visitors.stri.si.edu/auth/public/api/user</field>
+			<field name="data_endpoint">https://visitors.stri.si.edu/auth/public/api/user</field>
+		</record>
+	</data>
+</odoo>
