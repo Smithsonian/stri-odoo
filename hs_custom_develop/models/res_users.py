@@ -31,10 +31,21 @@ class ResUsers(models.Model):
 				'Accept':  'application/json',
 			}
 			resp = requests.get(endpoint, headers=HEADERS).json()
-			user_id = self.env['res.users'].sudo().search([('login', '=', resp.get('email'))], limit=1)
-			if user_id:
-				if user_id.oauth_uid == False or user_id.oauth_uid == "":
-					oauth_uid = str(resp.get('user_id'))
-					user_id.write({'oauth_uid':oauth_uid})
+			resp['vso'] = True
 			return resp
+
+
+		@api.model
+		def _auth_oauth_signin(self, provider, validation, params):
+			if validation.get('vso'):
+				email = validation.get('email')
+				user_id = self.env['res.users'].sudo().search([('login', '=', email))], limit=1)
+				if user_id:
+					if user_id.oauth_uid == False or user_id.oauth_uid == "":
+						oauth_uid = str(validation.get('user_id'))
+						user_id.write({'oauth_uid':oauth_uid})
+
+					if user_id.oauth_provider_id == False:
+						user_id.write({'oauth_provider_id':provider})
+			return super(ResUsers, self)._auth_oauth_signin(provider, validation, params):
 
