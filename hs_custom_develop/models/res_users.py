@@ -16,7 +16,7 @@ class ResUsers(models.Model):
 	_inherit = 'res.users'
 
 
-	@api.model	
+	@api.model
 	def _auth_oauth_rpc(self, endpoint, access_token):
 		_logger.info("Entro en _auth_oauth_rpc:")
 		resp = super(ResUsers, self)._auth_oauth_rpc(endpoint, access_token)

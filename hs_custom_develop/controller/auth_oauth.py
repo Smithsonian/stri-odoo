@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
+"""
 from odoo import http, _
 from odoo.exceptions import AccessError, MissingError
 from odoo.addons.auth_oauth.controllers.main import OAuthController, fragment_to_query_string
@@ -16,3 +17,4 @@ class VSOController(OAuthController):
 		_logger.info("Los parametos devueltos por VSO son")
 		_logger.info(kw)
 		return super(VSOController, self).signin(**kw)
+"""
