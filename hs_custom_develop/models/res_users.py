@@ -13,6 +13,9 @@ _logger = logging.getLogger(__name__)
 
 
 class ResUsers(models.Model):
+	_inherit = 'res.users'
+
+	
 	@api.model	
 	def _auth_oauth_rpc(self, endpoint, access_token):
 		_logger.info("El valor de _auth_oauth_rpc es:")
