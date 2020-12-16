@@ -17,8 +17,10 @@ class ResUsers(models.Model):
 	@api.model
 	def _auth_oauth_rpc(self, endpoint, access_token):
 		logging.info("Entro en _auth_oauth_rpc:")
-		resp = super(ResUsers, self)._auth_oauth_rpc(endpoint, access_token)
-		if not resp:
+		try:
+			resp = super(ResUsers, self)._auth_oauth_rpc(endpoint, access_token)
+			return resp
+		except Exception as __ERROR:
 			HEADERS = {
 				'Authorization': 'Bearer ' + access_token,
 				'Accept':  'application/json',
@@ -26,7 +28,8 @@ class ResUsers(models.Model):
 			resp = requests.get(endpoint, headers=HEADERS).json()
 			resp['vso'] = 'True'
 			logging.info("El valor de resp es {}".format(str(resp)))
-		return resp
+			return resp
+			
 
 
 	@api.model
