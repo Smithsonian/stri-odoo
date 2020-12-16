@@ -36,17 +36,16 @@ class ResUsers(models.Model):
 
 
 	@api.model
-	def _auth_oauth_signin(self, provider, validation, params):
-		_logger.info("El valor de provider es: " + str(provider))
-		_logger.info("El valor de validation es: " + str(validation))
-		if validation.get('vso'):
-			email = validation.get('email')
+	def _auth_oauth_validate(self, provider, access_token):
+		resp = super(ResUsers, self)._auth_oauth_validate(provider, access_token)
+		if resp.get('vso'):
+			email = resp.get('email')
 			user_id = self.env['res.users'].sudo().search([('login', '=', email))], limit=1)
 			if user_id:
-				oauth_uid = str(validation.get('user_id'))
+				oauth_uid = str(resp.get('user_id'))
 				user_id.write({
 					'oauth_uid':oauth_uid,
 					'oauth_provider_id':provider
 				})
-		return super(ResUsers, self)._auth_oauth_signin(provider, validation, params)
+		return resp
 
