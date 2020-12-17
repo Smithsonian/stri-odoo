@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <odoo>
-	<data>
+	<data noupdate="1">
 		<record id="provider_visitor" model="auth.oauth.provider">
 			<field name="name">VSO OAuth2</field>
 			<field name="body">Sign in with your VSO Account</field>
