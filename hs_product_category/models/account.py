@@ -48,6 +48,13 @@ class AccountInvoiceInherit2(models.Model):
 
 	@api.onchange('invoice_line_ids')
 	def _onchange_invoice_line(self):
+		"""Controlamos el diario encargado de asignar las cuentas de BCI y
+		Administration
+
+		Raises:
+			exceptions.Warning: Si no se encontro un diario asignado a la 
+			categoria de producto
+		"""
 		try:
 			for invoice_line in self.invoice_line_ids:
 				invoice = invoice_line.invoice_id
@@ -70,6 +77,49 @@ class AccountInvoiceInherit2(models.Model):
 
 				#no account receivable were found for the selected product
 
+
+class AccountInvoiceLine(models.Model):
+	_inherit = "account.invoice.line"
+
+
+	def change_invoice_journal(self, invoice, product):
+		try:
+			# invoice = invoice_line.invoice_id
+			if invoice.type in("out_refund", "in_refund"):
+				return
+			# product = invoice_line.product_id
+			# _logger.info("El producto encontrado es: '" + str(product.name) + "'")
+			if str(product.name) != "False":
+				filters = [
+					('type', '=', 'sale'),
+					('department_ids', '=', product.categ_id.id)
+				]
+				journal = self.env["account.journal"].sudo().search(filters, limit=1)
+				# _logger.info("El journal encontrado es: " + journal.name)
+				if journal.id != invoice.journal_id.id:
+					invoice.write({'journal_id':journal.id})
+		except Exception as __ERROR:
+			raise exceptions.Warning("No se encontraron cuentas por cobrar "
+				"para el producto ingresado.")
+
+
+	@api.model
+	def create(self, vals):
+		# _logger.info("----------------------------------------------------")
+		# _logger.info(str(vals))
+		if vals.get('product_id') and vals.get('invoice_id'):
+			lines = self.env['account.invoice.line'].sudo()
+			result = lines.search([('invoice_id', '=', vals.get('invoice_id'))])
+			# _logger.info(str(result))
+			if len(result) == 1:
+				item_id = vals.get('invoice_id')
+				invoice = self.env['account.invoice'].sudo().browse(item_id)
+				
+				item_id = vals.get('product_id')
+				product = self.env['product.product'].sudo().browse(item_id)
+
+				self.change_invoice_journal(invoice, product)
+		return super(AccountInvoiceLine, self).create(vals)
 
 
 
