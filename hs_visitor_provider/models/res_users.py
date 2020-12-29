@@ -13,6 +13,7 @@ _logger = logging.getLogger(__name__)
 class ResUsers(models.Model):
 	_inherit = 'res.users'
 
+	# refresh_token = fields.Char('Refresh Token')
 
 	def __update_user_provider(self, provider, visitor_data):
 		resp = visitor_data
@@ -24,6 +25,10 @@ class ResUsers(models.Model):
 				'oauth_uid':oauth_uid,
 				'oauth_provider_id':provider
 			})
+		# user_id.sudo().write({
+		# 	'oauth_access_token': resp.get('access_token'),
+		# 	'refresh_token': resp.get('refresh_token')})
+		# return user_id.login
 
 
 	@api.model
@@ -41,6 +46,8 @@ class ResUsers(models.Model):
 			return super(ResUsers, self)._auth_oauth_rpc(endpoint, access_token)
 
 
+	# access_token = params.get('access_token')
+
 	"""
 	@api.model
 	def _auth_oauth_validate(self, provider, access_token):
@@ -56,3 +63,4 @@ class ResUsers(models.Model):
 				})
 		return resp
 	"""
+
