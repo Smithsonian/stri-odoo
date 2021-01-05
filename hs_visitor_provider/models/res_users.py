@@ -13,7 +13,7 @@ _logger = logging.getLogger(__name__)
 class ResUsers(models.Model):
 	_inherit = 'res.users'
 
-	vso_refresh_token = fields.Char('VSO Refresh Token')
+	# vso_refresh_token = fields.Char('VSO Refresh Token')
 
 	"""     @api.model
 	def _vso_generate_signup_values(self, provider, params):
