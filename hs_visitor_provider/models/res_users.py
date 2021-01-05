@@ -20,12 +20,13 @@ class ResUsers(models.Model):
 	def __update_user_provider(self, provider, visitor_data, access_token):
 		resp = visitor_data
 		logging.info("CONTENIDO DE RESP: " + str(resp))
+		logging.info("ACCESS TOKEN: " + str(access_token))
 		# logging.info(resp + "CONTENIDO DE RESP: ")
 		email = resp.get('email')
 		user_id = self.env['res.users'].sudo().search([('login', '=', email)], limit=1)
 		if user_id:
 			oauth_uid = str(resp.get('user_id'))
-			user_id.write({
+			user_id.sudo().write({
 				'oauth_uid':oauth_uid,
 				'oauth_provider_id':provider,
 				'oauth_access_token':access_token
