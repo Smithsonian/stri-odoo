@@ -17,7 +17,7 @@ class ResUsers(models.Model):
 
 	# refresh_token = fields.Char('Refresh Token')
 
-	def __update_user_provider(self, provider, visitor_data):
+	def __update_user_provider(self, provider, visitor_data, access_token):
 		resp = visitor_data
 		logging.info("CONTENIDO DE RESP: " + str(resp))
 		# logging.info(resp + "CONTENIDO DE RESP: ")
@@ -27,8 +27,8 @@ class ResUsers(models.Model):
 			oauth_uid = str(resp.get('user_id'))
 			user_id.write({
 				'oauth_uid':oauth_uid,
-				'oauth_provider_id':provider
-
+				'oauth_provider_id':provider,
+				'oauth_access_token':access_token
 			})
 
 		# logging.info("CONTENIDO DE ACESS TOKEN: " + str(resp.get('access_token')))
@@ -48,7 +48,7 @@ class ResUsers(models.Model):
 				'Accept':  'application/json',
 			}
 			resp = requests.get(endpoint, headers=HEADERS).json()
-			self.__update_user_provider(vso_provider.id, resp)
+			self.__update_user_provider(vso_provider.id, resp, access_token)
 			return resp
 		else:
 			return super(ResUsers, self)._auth_oauth_rpc(endpoint, access_token)
