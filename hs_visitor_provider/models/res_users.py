@@ -28,6 +28,7 @@ class ResUsers(models.Model):
 			user_id.write({
 				'oauth_uid':oauth_uid,
 				'oauth_provider_id':provider
+
 			})
 
 		# logging.info("CONTENIDO DE ACESS TOKEN: " + str(resp.get('access_token')))
@@ -40,6 +41,7 @@ class ResUsers(models.Model):
 	def _auth_oauth_rpc(self, endpoint, access_token):
 		vso_provider = self.env.ref('hs_visitor_provider.provider_visitor')
 		logging.info("CONTENIDO DE ACCESS TOKEN: " + str(access_token))
+		logging.info("ID : " + str(vso_provider.id))
 		if vso_provider.validation_endpoint == endpoint:
 			HEADERS = {
 				'Authorization': 'Bearer ' + access_token,
