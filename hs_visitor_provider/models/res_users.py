@@ -87,6 +87,7 @@ class ResUsers(models.Model):
 				'oauth_provider_id':provider,
 				'oauth_access_token':access_token
 			})
+			logging.info("CONTENIDO DE RESP: " + str(user_id.oauth_access_token))
 
 	@api.model
 	def _auth_oauth_rpc(self, endpoint, access_token):
