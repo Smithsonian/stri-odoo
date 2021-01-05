@@ -5,6 +5,8 @@ import requests
 
 from odoo import api, fields, models, _
 from odoo.exceptions import AccessDenied, UserError
+from odoo.addons import base
+base.models.res_users.USER_PRIVATE_FIELDS.append('oauth_access_token')
 
 import logging
 _logger = logging.getLogger(__name__)
@@ -17,6 +19,7 @@ class ResUsers(models.Model):
 
 	def __update_user_provider(self, provider, visitor_data):
 		resp = visitor_data
+		logging.info(resp + "CONTENIDO DE RESP: ")
 		email = resp.get('email')
 		user_id = self.env['res.users'].sudo().search([('login', '=', email)], limit=1)
 		if user_id:
@@ -25,11 +28,12 @@ class ResUsers(models.Model):
 				'oauth_uid':oauth_uid,
 				'oauth_provider_id':provider
 			})
+
+		logging.info(resp.get('access_token') + "CONTENIDO DE ACESS TOKEN: ")
 		# user_id.sudo().write({
 		# 	'oauth_access_token': resp.get('access_token'),
 		# 	'refresh_token': resp.get('refresh_token')})
 		# return user_id.login
-
 
 	@api.model
 	def _auth_oauth_rpc(self, endpoint, access_token):
