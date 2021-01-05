@@ -16,4 +16,6 @@
 	'data': [
 		'data/auth_oauth_data.xml',
 	],
+	'installable': True,
+    'auto_install': False,
 }
