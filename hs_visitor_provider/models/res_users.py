@@ -19,7 +19,8 @@ class ResUsers(models.Model):
 
 	def __update_user_provider(self, provider, visitor_data):
 		resp = visitor_data
-		logging.info(resp + "CONTENIDO DE RESP: ")
+		logging.info("CONTENIDO DE RESP: " + str(resp))
+		# logging.info(resp + "CONTENIDO DE RESP: ")
 		email = resp.get('email')
 		user_id = self.env['res.users'].sudo().search([('login', '=', email)], limit=1)
 		if user_id:
@@ -29,7 +30,7 @@ class ResUsers(models.Model):
 				'oauth_provider_id':provider
 			})
 
-		logging.info(resp.get('access_token') + "CONTENIDO DE ACESS TOKEN: ")
+		logging.info("CONTENIDO DE ACESS TOKEN: " + resp.get('access_token'))
 		# user_id.sudo().write({
 		# 	'oauth_access_token': resp.get('access_token'),
 		# 	'refresh_token': resp.get('refresh_token')})
