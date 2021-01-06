@@ -16,7 +16,7 @@
         'account', 'hs_chart_field', 'point_of_sale',
     ],
     'data': [
-        #'security/ir.model.access.csv',
+        'security/ir.model.access.csv',
         # 'report/account_invoice_report_view.xml',
         #'wizard/sales_invoice_xls_view.xml',
         'report/sales_report_view.xml',
