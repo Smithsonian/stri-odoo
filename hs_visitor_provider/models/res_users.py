@@ -103,7 +103,11 @@ class ResUsers(models.Model):
 			self.__update_user_provider(vso_provider.id, resp, access_token)
 			return resp
 		else:
+			logging.info("ENTRO AL ELSE")
+			logging.info("ENDPOINT ELSE : " + str(endpoint))
+			logging.info("ACCESS TOKEN ELSE : " + str(access_token))
 			return super(ResUsers, self)._auth_oauth_rpc(endpoint, access_token)
+			
 
 	@api.model
 	def _auth_oauth_validate(self, provider, access_token):
