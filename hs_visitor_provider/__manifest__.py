@@ -5,8 +5,8 @@
 	'name': 'VSO Oauth',
 	'version': '1.0',
 	'summary':'Visitor Provider',
-	'category': 'Tool',
-	'depends': ['base'],
+	'category': 'Tools',
+	'depends': ['auth_oauth'],
 	'description': """
 		Visitor Provider
 	""",
