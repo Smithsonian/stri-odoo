@@ -14,6 +14,18 @@
 				
 			</field>
 		</record>
+
+		<!-- OCULTANDO BOTON PREVIEW_INVOICE -->
+		<record id="account_invoice_button_preview_view" model="ir.ui.view">
+			<field name="name">account.invoice.button.preview.view</field>
+			<field name="model">account.invoice</field>
+			<field name="inherit_id" ref="account.invoice_form"/>
+			<field name="arch" type="xml">
+				<xpath expr="//button[@name='preview_invoice']" position="replace">       
+                	<button name="preview_invoice" type="object" string="Preview" invisible="1"/>
+            	</xpath>
+			</field>
+		</record>
 		
 	</data>
 </odoo>
