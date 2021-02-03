@@ -77,8 +77,8 @@ class AccountAgedPartner(models.AbstractModel):
         """ Fetched selected analytic accounts and group from options and
             created final list of analytic accounts """
         if self.env.user.id in self.env.ref('analytic.group_analytic_accounting').users.ids:
-            analytic_groups_list = [int(group_id) for group_id in options.get('analytic_group')]
-            if options.get('analytic_accounts'):
+            if options.get('analytic_accounts') and options.get('analytic_group'):
+                analytic_groups_list = [int(group_id) for group_id in options.get('analytic_group')]
                 analtic_account_list = [int(account_id) for account_id in options.get('analytic_accounts')]
             if analytic_groups_list:
                 analytic_account_ids = self.env['account.analytic.account'].search([('group_id.id', 'in', analytic_groups_list)]).ids
