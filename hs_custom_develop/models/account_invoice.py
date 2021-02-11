@@ -48,6 +48,19 @@ class AccountInvoiceInherit3(models.Model):
 					'ref': "{}/{}".format(number, reference[1])
 				})
 
+	def send_invoice_email(self, template):
+		logging.info("TEMPLATE:" + str(template))
+		if not self.x_studio_sent_fund_email:
+			# move = env.ref('account.invoice')
+			template_id = self.env.ref(template)
+			template_id.send_mail(self.id, force_send=True)
+			self.write({'x_studio_sent_fund_email': True})
+		
+	""" def send_fund_invoice_email(self):
+		if not self.x_studio_sent_fund_email:
+			template_id = self.env.ref('account.email_template_invoice_fund')
+			template_id.send_mail(self.id, force_send=True)
+			self.write({'x_studio_sent_fund_email': True}) """
 
 	@api.multi
 	def action_invoice_open(self):
@@ -77,6 +90,8 @@ class AccountInvoiceInherit3(models.Model):
 					inv.number = sequence
 					inv.change_move_number()
 					inv.change_move_ref()
+					if inv.partner_id.customer_type != 'fund':
+						inv.send_invoice_email('account.email_template_edi_invoice')
 
 
 			if inv.type != 'out_invoice':
@@ -116,4 +131,18 @@ class AccountInvoiceInherit3(models.Model):
 				'currency_id': inv.company_id.currency_id.id,
 			})
 			payment.action_validate_invoice_payment()
+
+			if inv.partner_id.customer_type == 'fund' and inv.state == 'paid':
+				inv.send_invoice_email('account.email_template_invoice_fund')
+				
 		return action_open
+
+	""" @api.multi
+	def action_invoice_paid(self):
+		logging.info("ENTRO AL FOR DE INVOICE PAID:")
+		action_paid = super(AccountInvoiceInherit3, self).action_invoice_paid()
+		for inv in self:
+			if inv.type == 'out_invoice' and inv.partner_id.customer_type == 'fund':
+				inv.send_fund_invoice_email()
+			logging.info("ENTRO AL IF:")
+		return action_paid """
