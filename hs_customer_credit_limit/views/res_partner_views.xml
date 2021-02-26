@@ -1,0 +1,17 @@
+<odoo>
+	<data>
+		<!-- model.name inherit form view -->
+		<record id="res_partner_inherit_form" model="ir.ui.view">
+			<field name="name">res.partner.inherit.form</field>
+			<field name="model">res.partner</field>
+			<field name="inherit_id" ref="hs_customer_class_code.res_partner_fund_inherit1"/>
+			<field name="arch" type="xml">
+				
+				<xpath expr="//field[@name='credit']" position="before">
+					<field name="credit_limit"/>
+				</xpath>
+				
+			</field>
+		</record>
+	</data>
+</odoo>
