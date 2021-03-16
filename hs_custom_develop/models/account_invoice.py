@@ -92,9 +92,13 @@ class AccountInvoiceInherit3(models.Model):
 					inv.change_move_ref()
 					if inv.partner_id.customer_type != 'fund':
 						inv.send_invoice_email('account.email_template_edi_invoice')
-					else:
-						if inv.type == 'out_refund' and inv.partner_id.customer_type != 'fund':
-							inv.send_invoice_email('account.email_template_edi_invoice')
+					# else:
+					# 	if inv.type == 'out_refund' and inv.partner_id.customer_type != 'fund':
+					# 		inv.send_invoice_email('account.email_template_edi_invoice')
+			else:
+				if inv.type == 'out_refund':
+					if inv.partner_id.customer_type != 'fund':
+						inv.send_invoice_email('account.email_template_edi_invoice')
 
 			# if inv.type == 'out_refund':
 			# if inv.type != 'out_invoice':
