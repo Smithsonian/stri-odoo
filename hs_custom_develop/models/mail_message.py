@@ -39,7 +39,7 @@ class AccountFollowupReport(models.AbstractModel):
 
 		config_ms = self.env['ir.config_parameter'].sudo()
 		ms_email = config_ms.get_param('mail.notification.email')
-		if ms_email:
+		if email:
 			logging.info("VALOR DE MS_MAIL: " + str(ms_email))
 			body_html = self.with_context(print_mode=True, mail=True, lang=partner.lang or self.env.user.lang).get_html(options)
 			start_index = body_html.find(b'<span>', body_html.find(b'<div class="o_account_reports_summary">'))
@@ -58,7 +58,7 @@ class AccountFollowupReport(models.AbstractModel):
 				'mail_message_id': msg_id.id,
 				'subject': _('%s Payment Reminder') % (self.env.user.company_id.name) + ' - ' + partner.name,
 				'body_html': append_content_to_html(body_html, self.env.user.signature or '', plaintext=False),
-				'email_from': ms_email or '',
+				'email_from': ms_email,
 				'email_to': email,
 				'body': msg,
 			})
