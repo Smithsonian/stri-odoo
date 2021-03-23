@@ -37,10 +37,7 @@ class AccountFollowupReport(models.AbstractModel):
 		logging.info("VALOR DE PARTNER: " + str(partner))
 		logging.info("VALOR DE EMAIL: " + str(email))
 
-		config_ms = self.env['ir.config_parameter'].sudo()
-		ms_email = config_ms.get_param('mail.notification.email')
 		if email:
-			logging.info("VALOR DE MS_MAIL: " + str(ms_email))
 			body_html = self.with_context(print_mode=True, mail=True, lang=partner.lang or self.env.user.lang).get_html(options)
 			start_index = body_html.find(b'<span>', body_html.find(b'<div class="o_account_reports_summary">'))
 			end_index = start_index > -1 and body_html.find(b'</span>', start_index) or -1
@@ -54,6 +51,8 @@ class AccountFollowupReport(models.AbstractModel):
 				.replace('o_account_reports_edit_summary_pencil', '')\
 				.replace('fa-pencil', '')
 			msg_id = partner.message_post(body=msg, message_type='email')
+			config_ms = self.env['ir.config_parameter'].sudo()
+			ms_email = config_ms.get_param('mail.notification.email')
 			email = self.env['mail.mail'].create({
 				'mail_message_id': msg_id.id,
 				'subject': _('%s Payment Reminder') % (self.env.user.company_id.name) + ' - ' + partner.name,
@@ -62,6 +61,7 @@ class AccountFollowupReport(models.AbstractModel):
 				'email_to': email,
 				'body': msg,
 			})
+			logging.info("VALOR DE MS_MAIL: " + str(ms_email))
 			partner.message_subscribe([partner.id])
 		else:
 			return super(AccountFollowupReport, self).send_email()
