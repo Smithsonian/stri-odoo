@@ -1,0 +1,16 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+	<data>
+		
+		<record id="mail_notification_name" model="ir.config_parameter">
+			<field name="key">mail.notification.name</field>
+			<field name="value">dummy</field>
+		</record>
+		
+		<record id="mail_notification_email" model="ir.config_parameter">
+			<field name="key">mail.notification.email</field>
+			<field name="value">dummy</field>
+		</record>
+		
+	</data>
+</odoo>
