@@ -34,10 +34,13 @@ class AccountFollowupReport(models.AbstractModel):
 		"""
 		partner = self.env['res.partner'].browse(options.get('partner_id'))
 		email = self.env['res.partner'].browse(partner.address_get(['invoice'])['invoice']).email
+		logging.info("VALOR DE PARTNER: " + str(partner))
+		logging.info("VALOR DE EMAIL: " + str(email))
 
 		config_ms = self.env['ir.config_parameter'].sudo()
 		ms_email = config_ms.get_param('mail.notification.email')
 		if ms_email:
+			logging.info("VALOR DE MS_MAIL: " + str(ms_email))
 			body_html = self.with_context(print_mode=True, mail=True, lang=partner.lang or self.env.user.lang).get_html(options)
 			start_index = body_html.find(b'<span>', body_html.find(b'<div class="o_account_reports_summary">'))
 			end_index = start_index > -1 and body_html.find(b'</span>', start_index) or -1
