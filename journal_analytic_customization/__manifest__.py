@@ -14,6 +14,7 @@
     'depends': ['account_reports'],
     'data': [
         'views/account_journal_views.xml',
+        'views/res_config_setting.xml'
     ],
     'auto_install': False,
     'installable': True,
