@@ -63,6 +63,7 @@ class AccountFollowupReport(models.AbstractModel):
 			})
 			logging.info("VALOR DE MS_MAIL: " + str(ms_email))
 			partner.message_subscribe([partner.id])
+			return True
 		else:
 			return super(AccountFollowupReport, self).send_email()
 		raise UserError(_('Could not send mail to partner because it does not have any email address defined'))
