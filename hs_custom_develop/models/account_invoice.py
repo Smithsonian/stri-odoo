@@ -48,13 +48,13 @@ class AccountInvoiceInherit3(models.Model):
 					'ref': "{}/{}".format(number, reference[1])
 				})
 
-	def send_invoice_email(self, template):
+	""" def send_invoice_email(self, template):
 		logging.info("TEMPLATE:" + str(template))
 		if not self.x_studio_sent_fund_email:
 			# move = env.ref('account.invoice')
 			template_id = self.env.ref(template)
 			template_id.send_mail(self.id, force_send=True)
-			self.write({'x_studio_sent_fund_email': True})
+			self.write({'x_studio_sent_fund_email': True}) """
 		
 	""" def send_fund_invoice_email(self):
 		if not self.x_studio_sent_fund_email:
@@ -90,21 +90,20 @@ class AccountInvoiceInherit3(models.Model):
 					inv.number = sequence
 					inv.change_move_number()
 					inv.change_move_ref()
-					if inv.partner_id.customer_type != 'fund':
-						inv.send_invoice_email('account.email_template_edi_invoice')
+					""" if inv.partner_id.customer_type != 'fund':
+						inv.send_invoice_email('account.email_template_edi_invoice') """
 					# else:
 					# 	if inv.type == 'out_refund' and inv.partner_id.customer_type != 'fund':
 					# 		inv.send_invoice_email('account.email_template_edi_invoice')
-			else:
+			""" else:
 				if inv.type == 'out_refund':
 					if inv.partner_id.customer_type != 'fund':
-						inv.send_invoice_email('account.email_template_edi_invoice')
+						inv.send_invoice_email('account.email_template_edi_invoice') """
 
-			# if inv.type == 'out_refund':
-			# if inv.type != 'out_invoice':
-			# 	continue HICE AJUSTE AQUI
-			if inv.type not in ('out_invoice','out_refund'):
-				continue
+			if inv.type != 'out_invoice':
+				continue #HICE AJUSTE AQUI
+			# if inv.type not in ('out_invoice','out_refund'):
+				# continue
 
 			if inv.partner_id.customer_type == 'regular':
 				continue
@@ -141,8 +140,8 @@ class AccountInvoiceInherit3(models.Model):
 			})
 			payment.action_validate_invoice_payment()
 
-			if inv.partner_id.customer_type == 'fund' and inv.state == 'paid':
-				inv.send_invoice_email('account.email_template_invoice_fund')
+			""" if inv.partner_id.customer_type == 'fund' and inv.state == 'paid':
+				inv.send_invoice_email('account.email_template_invoice_fund') """
 				
 		return action_open
 
