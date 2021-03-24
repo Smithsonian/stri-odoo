@@ -36,7 +36,8 @@ class AccountFollowupReport(models.AbstractModel):
 		email = self.env['res.partner'].browse(partner.address_get(['invoice'])['invoice']).email
 		logging.info("VALOR DE PARTNER: " + str(partner))
 		logging.info("VALOR DE EMAIL: " + str(email))
-
+		config_ms = self.env['ir.config_parameter'].sudo()
+		ms_email = config_ms.get_param('mail.notification.email')
 		if email:
 			body_html = self.with_context(print_mode=True, mail=True, lang=partner.lang or self.env.user.lang).get_html(options)
 			start_index = body_html.find(b'<span>', body_html.find(b'<div class="o_account_reports_summary">'))
@@ -51,13 +52,12 @@ class AccountFollowupReport(models.AbstractModel):
 				.replace('o_account_reports_edit_summary_pencil', '')\
 				.replace('fa-pencil', '')
 			msg_id = partner.message_post(body=msg, message_type='email')
-			config_ms = self.env['ir.config_parameter'].sudo()
-			ms_email = config_ms.get_param('mail.notification.email')
+			
 			email = self.env['mail.mail'].create({
 				'mail_message_id': msg_id.id,
 				'subject': _('%s Payment Reminder') % (self.env.user.company_id.name) + ' - ' + partner.name,
 				'body_html': append_content_to_html(body_html, self.env.user.signature or '', plaintext=False),
-				'email_from': formataddr(('Smithsonian Tropical Research Institute', ms_email)),
+				'email_from': 'Smithsonian Tropical Research Institute' + '<' + ms_email + '>',
 				'email_to': email,
 				'body': msg,
 			})
